@@ -25,8 +25,8 @@ import {
 class Admin extends Component {
   constructor(props) {
     super(props);
-    //  this.onSubmit = this.onSubmit.bind(this);
   }
+
   onBurgerChange(text) {
     if (text != this.props.burger_price) {
       this.props.change_burger(text);
@@ -124,10 +124,11 @@ class Admin extends Component {
                 </Form>
               </CardBody>
               <CardFooter>
-                <Button type="submit" size="sm" color="primary">
-                  <i className="fa fa-dot-circle-o" onClick={this.onSubmit} />{" "}
-                  Submit
-                </Button>
+                <a href="/">
+                  <Button type="submit" size="sm" color="primary">
+                    Submit
+                  </Button>
+                </a>
               </CardFooter>
             </Card>
           </Col>
