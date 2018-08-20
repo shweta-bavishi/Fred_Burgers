@@ -25,9 +25,28 @@ import {
 class Admin extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    //  this.onSubmit = this.onSubmit.bind(this);
   }
-  onSubmit() {}
+  onBurgerChange(text) {
+    if (text != this.props.burger_price) {
+      this.props.change_burger(text);
+    }
+  }
+  onFriesChange(text) {
+    if (text != this.props.fries_price) {
+      this.props.change_fries(text);
+    }
+  }
+  onCokeChange(text) {
+    if (text != this.props.coke_price) {
+      this.props.change_coke(text);
+    }
+  }
+  onPepsiChange(text) {
+    if (text != this.props.pepsi_price) {
+      this.props.change_pepsi(text);
+    }
+  }
 
   render() {
     return (
@@ -40,6 +59,7 @@ class Admin extends Component {
               </CardHeader>
               <CardBody>
                 <Form
+                  id="adminForm"
                   action=""
                   method="post"
                   encType="multipart/form-data"
@@ -51,9 +71,10 @@ class Admin extends Component {
                     </Col>
                     <Col xs="12" md="9">
                       <Input
-                        type="text"
-                        id="text-input"
+                        type="number"
+                        id="burger"
                         name="text-input"
+                        onBlur={e => this.onBurgerChange(+e.target.value)}
                         placeholder={this.props.burger_price}
                       />
                     </Col>
@@ -64,9 +85,10 @@ class Admin extends Component {
                     </Col>
                     <Col xs="12" md="9">
                       <Input
-                        type="text"
+                        type="number"
                         id="text-input"
                         name="text-input"
+                        onBlur={e => this.onFriesChange(+e.target.value)}
                         placeholder={this.props.fries_price}
                       />
                     </Col>
@@ -77,9 +99,10 @@ class Admin extends Component {
                     </Col>
                     <Col xs="12" md="9">
                       <Input
-                        type="text"
+                        type="number"
                         id="text-input"
                         name="text-input"
+                        onBlur={e => this.onPepsiChange(+e.target.value)}
                         placeholder={this.props.pepsi_price}
                       />
                     </Col>
@@ -90,9 +113,10 @@ class Admin extends Component {
                     </Col>
                     <Col xs="12" md="9">
                       <Input
-                        type="text"
+                        type="number"
                         id="text-input"
                         name="text-input"
+                        onBlur={e => this.onCokeChange(+e.target.value)}
                         placeholder={this.props.coke_price}
                       />
                     </Col>
