@@ -1,83 +1,29 @@
-import {
-  BURGER_ADDED,
-  PEPSI_ADDED,
-  FRIES_ADDED,
-  COKE_ADDED,
-  BURGER_CHANGED,
-  FRIES_CHANGED,
-  COKE_CHANGED,
-  PEPSI_CHANGED
-} from "./types";
+import { PRODUCT_ADDED, PRODUCT_REMOVED } from "./types";
 
-export const add_burger = quant => {
+export const add_product = (id, cart) => {
+  var flag = false;
+  for (var i = 0; i < cart.length; i++) {
+    if (id == cart[i].id) {
+      flag = true;
+      cart[i].quant = cart[i].quant + 1;
+    }
+  }
+  if (flag == false) {
+    cart.push({ id, quant: 1 });
+  }
   return {
-    type: BURGER_ADDED,
-    payload: quant + 1
+    type: PRODUCT_ADDED,
+    payload: cart
   };
 };
-export const add_pepsi = quant => {
+export const remove_product = (id, cart) => {
+  for (var i = 0; i < cart.length; i++) {
+    if (id == cart[i].id && cart[i].quant > 0) {
+      cart[i].quant = cart[i].quant - 1;
+    }
+  }
   return {
-    type: PEPSI_ADDED,
-    payload: quant + 1
-  };
-};
-export const add_fries = quant => {
-  return {
-    type: FRIES_ADDED,
-    payload: quant + 1
-  };
-};
-export const add_coke = quant => {
-  return {
-    type: COKE_ADDED,
-    payload: quant + 1
-  };
-};
-export const remove_burger = quant => {
-  return {
-    type: BURGER_ADDED,
-    payload: quant - 1
-  };
-};
-export const remove_pepsi = quant => {
-  return {
-    type: PEPSI_ADDED,
-    payload: quant - 1
-  };
-};
-export const remove_fries = quant => {
-  return {
-    type: FRIES_ADDED,
-    payload: quant - 1
-  };
-};
-export const remove_coke = quant => {
-  return {
-    type: COKE_ADDED,
-    payload: quant - 1
-  };
-};
-export const change_burger = quant => {
-  return {
-    type: BURGER_CHANGED,
-    payload: quant
-  };
-};
-export const change_pepsi = quant => {
-  return {
-    type: PEPSI_CHANGED,
-    payload: quant
-  };
-};
-export const change_fries = quant => {
-  return {
-    type: FRIES_CHANGED,
-    payload: quant
-  };
-};
-export const change_coke = quant => {
-  return {
-    type: COKE_CHANGED,
-    payload: quant
+    type: PRODUCT_REMOVED,
+    payload: cart
   };
 };

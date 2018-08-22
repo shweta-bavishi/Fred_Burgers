@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import {
   Card,
   CardBody,
@@ -15,37 +14,22 @@ import {
   FormText,
   CardFooter
 } from "reactstrap";
-import {
-  change_burger,
-  change_pepsi,
-  change_coke,
-  change_fries
-} from "../../actions/index.js";
+import products from "../../data/products";
+var fs = require("browserify-fs");
+
+var changePrice = (product, price) => {
+  product.price = price;
+  console.log(product);
+  console.log(products);
+  fs.writeFile("../../data/products", products, function(err) {
+    if (err) throw err;
+    console.log("Saved!");
+  });
+};
 
 class Admin extends Component {
   constructor(props) {
     super(props);
-  }
-
-  onBurgerChange(text) {
-    if (text != this.props.burger_price) {
-      this.props.change_burger(text);
-    }
-  }
-  onFriesChange(text) {
-    if (text != this.props.fries_price) {
-      this.props.change_fries(text);
-    }
-  }
-  onCokeChange(text) {
-    if (text != this.props.coke_price) {
-      this.props.change_coke(text);
-    }
-  }
-  onPepsiChange(text) {
-    if (text != this.props.pepsi_price) {
-      this.props.change_pepsi(text);
-    }
   }
 
   render() {
@@ -65,62 +49,24 @@ class Admin extends Component {
                   encType="multipart/form-data"
                   className="form-horizontal"
                 >
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="text-input">Ham Burgers</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input
-                        type="number"
-                        id="burger"
-                        name="text-input"
-                        onBlur={e => this.onBurgerChange(+e.target.value)}
-                        placeholder={this.props.burger_price}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="text-input">French Fries</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input
-                        type="number"
-                        id="text-input"
-                        name="text-input"
-                        onBlur={e => this.onFriesChange(+e.target.value)}
-                        placeholder={this.props.fries_price}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="text-input">Pepsi</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input
-                        type="number"
-                        id="text-input"
-                        name="text-input"
-                        onBlur={e => this.onPepsiChange(+e.target.value)}
-                        placeholder={this.props.pepsi_price}
-                      />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Col md="3">
-                      <Label htmlFor="text-input">Coke</Label>
-                    </Col>
-                    <Col xs="12" md="9">
-                      <Input
-                        type="number"
-                        id="text-input"
-                        name="text-input"
-                        onBlur={e => this.onCokeChange(+e.target.value)}
-                        placeholder={this.props.coke_price}
-                      />
-                    </Col>
-                  </FormGroup>
+                  {products.map((product, index) => {
+                    return (
+                      <FormGroup row key={product.id}>
+                        <Col md="3">
+                          <Label htmlFor="text-input">{product.name}</Label>
+                        </Col>
+                        <Col xs="12" md="9">
+                          <Input
+                            type="number"
+                            name="text-input"
+                            onBlur={e => changePrice(product, +e.target.value)}
+                            placeholder={product.price}
+                            defaultValue={product.price}
+                          />
+                        </Col>
+                      </FormGroup>
+                    );
+                  })}
                 </Form>
               </CardBody>
               <CardFooter>
@@ -138,21 +84,4 @@ class Admin extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    burger_price: state.cart.Burger_Price,
-    fries_price: state.cart.Fries_Price,
-    coke_price: state.cart.Coke_Price,
-    pepsi_price: state.cart.Pepsi_Price
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  {
-    change_burger,
-    change_pepsi,
-    change_coke,
-    change_fries
-  }
-)(Admin);
+export default Admin;
